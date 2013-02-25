@@ -1,11 +1,8 @@
-import com.jameslow.AirPlay;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
-
-import java.io.IOException;
 
 public class SWTApp {
 
@@ -74,20 +71,8 @@ public class SWTApp {
             public void handleEvent(Event event) {
                 FileDialog fileDialog = new FileDialog(shell, SWT.MULTI);
                 final String file = fileDialog.open();
-                final String server = serverText.getText();
-                Thread thread = new Thread() {
-                    public void run() {
-                        AirPlay airPlay = new AirPlay(server);
-                        try {
-                            airPlay.photo(file);
-                            airPlay.stop();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                thread.start();
-                thread.interrupt();
+                final String hostname = serverText.getText();
+                AirPlay.send(file, hostname);
             }
         });
     }
